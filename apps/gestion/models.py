@@ -1,12 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver 
 
 class Ano(models.Model):
     ano = models.IntegerField(unique=True)
     comienzo = models.DateTimeField()
     final = models.DateTimeField()
+
+    class Meta:
+        verbose_name = 'Año'
+        verbose_name_plural = 'Años'
+
+    def __str__(self):
+        return str(self.comienzo)
 
 class Temporada(models.Model):
     nombre = models.CharField(max_length=20)
@@ -18,7 +22,7 @@ class Temporada(models.Model):
         verbose_name_plural = 'Temporadas'
 
     def __str__(self):
-        return self.ano
+        return str(self.nombre)
 
 class Nacionalidad(models.Model):
     pais = models.CharField(max_length=20)
