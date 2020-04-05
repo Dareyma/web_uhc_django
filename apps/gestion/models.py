@@ -68,7 +68,7 @@ class Partida(models.Model):
         ordering = ['dia']
 
     def __str__(self):
-        return self.dia
+        return str(self.dia)
 
 class Juega(models.Model):
     kills = models.IntegerField(default=0)
