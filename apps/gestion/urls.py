@@ -3,6 +3,9 @@ from .views import *
 
 
 urlpatterns = [
-    path('temporada', temporada, name='temporada'),
-    path('jugadores', Jugadores.as_view(), name='jugadores')
+    path('temporadas', temporadas, name='temporadas'),
+    path('temporada/<int:id>', temporada, name='temporada'),
+    path('jugadores', Jugadores.as_view(), name='jugadores'),
+    path('partidas', Partidas.as_view(), name='partidas'),
+    path('partida/<int:id>', partida, name='partida'),
 ]

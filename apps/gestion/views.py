@@ -1,22 +1,123 @@
 from django.shortcuts import render
 from .models import *
+from .forms import *
 
 from django.core.paginator import Paginator
 from django.views.generic import View, TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.shortcuts import get_list_or_404, get_object_or_404
+
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.generic.edit import FormView
+from django.http import HttpResponseRedirect
+from django.contrib.auth import login, logout
+
+
+# Login, loguot, register
+
+class Login(FormView):
+    template_name = 'login.html'
+    form_class = FormularioLogin
+    success_url = reverse_lazy('index')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(Login, self).dispatch(request, *args, kwargs)
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return super(Login, self).form_valid(form)
+
+def logoutUsuario(request):
+    logout(request)
+
+    return HttpResponseRedirect('/login/')
+
 
 # Vistas basadas en funciones
 
-def temporada(request):
+def temporadas(request):
 
-    temporadas = Temporada.objects.order_by('ano')
+    temporadas = Temporada.objects.order_by('-ano')
         
-    paginator = Paginator(temporada, 8)
+    paginator = Paginator(temporadas, 8)
     page = request.GET.get('page')
-    temporada = paginator.get_page(page)
+    temporadas = paginator.get_page(page)
 
-    return render(request, 'gestion/read/temporada.html', {'temporadas': temporadas})
+    return render(request, 'gestion/read/temporadas.html', {'temporadas': temporadas})
+
+def temporada(request, id):
+    temporadas = get_object_or_404(Temporada, id = id)
+    partidas = Partida.objects.filter(temporada = temporadas)
+    context={
+        'temporadas': temporadas,
+        'partidas': partidas,
+        }
+    return render(request, 'gestion/read/temporada.html', context)
+
+
+def partida(request, id):
+    partidas = get_object_or_404(Partida, id = id)
+    equipos = Juega.objects.filter(partida = partidas)
+    context={
+        'equipos': equipos,
+        'partidas': partidas,
+        }
+    return render(request, 'gestion/read/datos_partida.html', context)
+
+def crearPartida(request):
+    if request.method == 'POST':
+        partida_form = PartidasForm(request.POST)
+
+        if partida_form.is_valid():
+            partida_form.save()
+            return redirect('gestion:partidas')
+    
+    else:
+        partida_form = PartidasForm()
+    
+    return render(request, 'gestion/create_edit/crear_partida.html', {'partida_form': partida_form})
+
+def editarPartida(request, id):
+    partida_form = None
+    error = None
+
+    try:
+        partida = Partidas.objects.get(id = id)
+
+        if request.method == 'GET':
+            partida_form = PartidasForm(instance= jugador)
+
+        else:
+            partida_form = PartidasForm(request.POST, instance=jugador)
+
+            if partida_form.is_valid:
+                partida_form.save()
+
+            return redirect('gestion:partidas')
+    except ObjectDoesNotExist as e:
+        error = e
+
+    return render(request, 'gestion/create_edit/crear_partida.html', {'partida_form': partida_form, 'error': error})
+
+def eliminarPartida(request, id):
+    partida = Partida.objects.get(id = id)
+    partida.delete()
+    
+    return redirect('gestion:partidas')
+
 
 # Vistas basadas en clases
+
+class Inicio(TemplateView):
+    template_name = 'index.html'
+
+
 
 class Jugadores(TemplateView):
     template_name = 'gestion/read/jugadores.html'
@@ -33,3 +134,32 @@ class Jugadores(TemplateView):
         jugadores = paginator.get_page(page)
 
         return render(request, self.template_name, {'jugadores': jugadores, 'numero': 1})
+
+class Partidas(TemplateView):
+    template_name = 'gestion/read/partidas.html'
+
+    def get(self, request, *args, **kwargs):
+        queryset = request.GET.get("buscar")
+        partidas = Partida.objects.all()
+        # nombre = partidas.
+
+        if queryset:
+            partidas = Partida.objects.filter(nombre = queryset)
+            
+        paginator = Paginator(partidas, 5)
+        page = request.GET.get('page')
+        partidas = paginator.get_page(page)
+
+        return render(request, self.template_name, {'partidas': partidas})
+
+class CrearJuego(CreateView):
+    model = Juega
+    form_class = JuegoForm
+
+class ActualizarJuego(UpdateView):
+    model = Juega
+    form_class = JuegoForm
+
+class EliminarJuego(DeleteView):
+    model = Juega
+    success_url = 'gestion:partidas'

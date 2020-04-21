@@ -16,14 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-# from apps.jugadores.views import Inicio
+from apps.gestion.views import Inicio, Login, logoutUsuario
+
 from django.conf import settings
 from django.conf.urls.static import static
-# from django.contrib.auth.decorators import login_required
-# from apps.usuario.views import Login, logoutUsuario
+from django.contrib.auth.decorators import login_required
+
+
+from django.contrib.auth import login, logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', Inicio.as_view(), name='index'),
+    path('login/', Login.as_view(), name='login'),
+    path('logout/', login_required(logoutUsuario), name='logout'),
     path('gestion/', include(('apps.gestion.urls', 'gestion')))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
