@@ -1,12 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 
 from django.core.paginator import Paginator
 from django.views.generic import View, TemplateView, ListView, CreateView, UpdateView, DeleteView
-from django.shortcuts import get_list_or_404, get_object_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404, render
 
-from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
@@ -61,7 +61,7 @@ def temporada(request, id):
     return render(request, 'gestion/read/temporada.html', context)
 
 
-def partida(request, id):
+def juego(request, id):
     partidas = get_object_or_404(Partida, id = id)
     equipos = Juega.objects.filter(partida = partidas)
     context={
@@ -72,38 +72,46 @@ def partida(request, id):
 
 def crearPartida(request):
     if request.method == 'POST':
-        partida_form = PartidasForm(request.POST)
+        partida_form = PartidaForm(request.POST)
 
         if partida_form.is_valid():
             partida_form.save()
             return redirect('gestion:partidas')
     
     else:
-        partida_form = PartidasForm()
+        partida_form = PartidaForm()
     
-    return render(request, 'gestion/create_edit/crear_partida.html', {'partida_form': partida_form})
+    return render(request, 'gestion/create_edit/partida.html', {'partida_form': partida_form})
 
 def editarPartida(request, id):
     partida_form = None
     error = None
 
     try:
-        partida = Partidas.objects.get(id = id)
+        partida = Partida.objects.get(id = id)
 
         if request.method == 'GET':
-            partida_form = PartidasForm(instance= jugador)
+            partida_form = PartidaForm(instance = partida)
 
         else:
-            partida_form = PartidasForm(request.POST, instance=jugador)
+            partida_form = PartidaForm(request.POST, instance = partida)
 
-            if partida_form.is_valid:
+            if partida_form.is_valid():
                 partida_form.save()
-
+                # --------------------------------------------------------------------
+                    # ''' El error que me da es que no me entra en el if, 
+                    # supongo que es porque no lo reconoce como una fecha válida'''
+                # --------------------------------------------------------------------
+            #     return redirect('gestion:partidas')
+            # else:
+            #     error = "Error"
+            #     return render(request, 'gestion/create_edit/partida.html', {'partida_form': partida_form, 'error': error})
             return redirect('gestion:partidas')
+
     except ObjectDoesNotExist as e:
         error = e
 
-    return render(request, 'gestion/create_edit/crear_partida.html', {'partida_form': partida_form, 'error': error})
+    return render(request, 'gestion/create_edit/partida.html', {'partida_form': partida_form, 'error': error})
 
 def eliminarPartida(request, id):
     partida = Partida.objects.get(id = id)
@@ -116,8 +124,6 @@ def eliminarPartida(request, id):
 
 class Inicio(TemplateView):
     template_name = 'index.html'
-
-
 
 class Jugadores(TemplateView):
     template_name = 'gestion/read/jugadores.html'
@@ -158,8 +164,15 @@ class CrearJuego(CreateView):
 
 class ActualizarJuego(UpdateView):
     model = Juega
+    template_name = 'gestion/create_edit/juego.html'
     form_class = JuegoForm
+    success_url = reverse_lazy('gestion:partidas')
 
 class EliminarJuego(DeleteView):
     model = Juega
     success_url = 'gestion:partidas'
+
+class EliminarTemporada(DeleteView):
+    model = Temporada
+    success_url = 'gestion:temporadas'
+

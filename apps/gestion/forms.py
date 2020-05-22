@@ -27,6 +27,17 @@ class JuegoForm(forms.ModelForm):
                     'placeholder': 'Ingrese el nombre del equipo'
                 }
             ),
+            'kills': forms.TextInput(
+                attrs = {
+                    'class': 'form-control',
+                    'placeholder': 'Ingrese las kills del equipo'
+                }
+            ),
+            'ganador': forms.Select(
+                attrs = {
+                    'class': 'form-control',
+                }
+            ),
             'jugador': forms.Select(
                 attrs = {
                     'class': 'form-control',
@@ -52,28 +63,24 @@ class PartidaForm(forms.ModelForm):
         }
 
         widgets = {
-            'dia': forms.TextInput(
+            'dia': forms.DateTimeInput(
                 attrs = {
-                    'class': 'form-control',
-                    'placeholder': 'Ingrese el nombre del clan'
+                    'class': 'form-control'
                 }
             ),
-            'hora_init': forms.Textarea(
+            'hora_init': forms.TimeInput(
                 attrs = {
-                    'class': 'form-control',
-                    'placeholder': 'Ingrese la descripcion del clan'
+                    'class': 'form-control'
                 }
             ),
-            'hora_fin': forms.TextInput(
+            'hora_fin': forms.TimeInput(
                 attrs = {
-                    'class': 'form-control',
-                    'placeholder': 'Ingrese la nacionalidad del clan'
+                    'class': 'form-control'
                 }
             ),
-            'temporada': forms.TextInput(
+            'temporada': forms.Select(
                 attrs = {
-                    'class': 'form-control',
-                    'placeholder': 'Ingrese el tipo del clan'
+                    'class': 'form-control'
                 }
             )
         }

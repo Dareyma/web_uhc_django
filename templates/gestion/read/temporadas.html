@@ -17,8 +17,22 @@
 
     <link rel="stylesheet" href="{% static 'css/read.css' %}">
 
+    <link href="{% static 'css/menu2.css' %}" rel="stylesheet">
+    <link href="{% static 'css/logout.css' %}" rel="stylesheet">
+
 </head>
 <body>
+    <ul>
+        <div class="navbar-header">
+          <a class="navbar-brand" class="blue" style="color: yellow;">UHC BF</a>
+        </div>
+        <li><a href="{% url 'gestion:temporadas' %}">Temporadas</a></li>
+        <li><a href="{% url 'gestion:jugadores' %}">Jugadores</a></li>
+        <li><a href="{% url 'gestion:partidas' %}">Partidas</a></li>
+        <li><a href="">Contactar</a></li>
+        <li class="float-right"><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span>Logout </a></li>
+    </ul>
+    
     <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
@@ -58,11 +72,11 @@
                     {% for temporada in temporadas %}
                     <tr>
                         <td>{{ temporada.id }}</td>
-                        <td><a href="#">{{ temporada.nombre }}</a></td>
+                        <td><a href="{% url 'gestion:temporada' temporada.id %}">{{ temporada.nombre }}</a></td>
                         <td>{{ temporada.ano }}</td>
 						<td>
 							<a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-							<a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+							<a href="{% url 'gestion:eliminar_temporada' temporada.id %}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
                         </td>
                     </tr>
                     {% endfor %}
