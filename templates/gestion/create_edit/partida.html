@@ -30,10 +30,15 @@
                 <h4 class="modal-title">Añadir partida</h4>
             </div>
             <div class="modal-body">					
-                <div class="form-group">
-                    {{ partida_form.dia.label }}
-                    {{ partida_form.dia }}
-                </div>
+                <!-- <div class="form-group"> -->
+                    <label for="id_fecha" class="col-sm-5 control-label">* Fecha</label>
+                    <div class="col-sm-7">
+                        <div class="input-group">
+                            {{ partida_form.dia }}
+                        <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                <!-- </div> -->
                 <div class="form-group">
                     {{ partida_form.hora_inic.label }}
                     {{ partida_form.hora_inic }}
@@ -52,5 +57,9 @@
             </div>
         {% endif %}
     </form>
+
+<!--===============================================================================================-->
+        <script src="{% static 'js/myscript.js' %}" src="../../../static/js/myscript.js"></script>
+<!--===============================================================================================-->
 </body>
 </html>

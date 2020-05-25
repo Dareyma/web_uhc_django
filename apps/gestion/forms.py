@@ -56,24 +56,28 @@ class PartidaForm(forms.ModelForm):
         model = Partida
         fields = ['dia', 'hora_inic', 'hora_fin', 'temporada' ]
         labels = {
-            'dia': 'Día de la partida',
+            # 'dia': 'Día de la partida',
             'hora_init': 'Hora inicio de la partida',
             'hora_fin': 'Hora de finalización de la partida',
             'temporada': 'Temporada en la que se lleva a cabo la partida'
         }
 
         widgets = {
-            'dia': forms.DateTimeInput(
+            'dia': forms.DateInput(
+                format='%d/%m/%Y',
                 attrs = {
-                    'class': 'form-control'
+                    'class': 'form-control datepicker',
+                    'autocomplete': 'off'
                 }
             ),
             'hora_init': forms.TimeInput(
+                format='%H:%M:%S',
                 attrs = {
                     'class': 'form-control'
                 }
             ),
             'hora_fin': forms.TimeInput(
+                format='%H:%M:%S',
                 attrs = {
                     'class': 'form-control'
                 }

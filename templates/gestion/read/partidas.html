@@ -20,6 +20,13 @@
     <link href="{% static 'css/menu2.css' %}" rel="stylesheet">
     <link href="{% static 'css/logout.css' %}" rel="stylesheet">
 
+    <script src="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}" 
+    src="../../../static/lib/jquery-confirm-v3.3.4/jquery-confirm.min.js"></script>
+    <link href="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}" 
+    href="../../../static/lib/jquery-confirm-v3.3.4/jquery-confirm.min.css" rel="stylesheet">
+
+    <script src="{% static 'js/myscript.js' %}"
+    src="../../../static/js/myscript.js"></script>
 </head>
 <body>
     <ul>
@@ -80,7 +87,7 @@
                         <td>ganador</td>
 						<td>
 							<a href="{% url 'gestion:edit_partida' partida.id %}" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-							<a href="{% url 'gestion:eliminar_partida' partida.id %}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+							<a onclick="alert_jqueryconfirm('gestion:eliminar_partida', '{{partida.id}}' )" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
 						</td>
                     </tr>
                     {% endfor %}
@@ -104,6 +111,7 @@
                     </div>
                 </div>
             </div>
-    </div>     
+    </div>
+    <script></script>
 </body>
 </html>                                		                            
