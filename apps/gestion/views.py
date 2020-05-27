@@ -9,6 +9,8 @@ from django.shortcuts import get_list_or_404, get_object_or_404, render
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import FormView
@@ -98,14 +100,7 @@ def editarPartida(request, id):
 
             if partida_form.is_valid():
                 partida_form.save()
-                # --------------------------------------------------------------------
-                    # ''' El error que me da es que no me entra en el if, 
-                    # supongo que es porque no lo reconoce como una fecha válida'''
-                # --------------------------------------------------------------------
-            #     return redirect('gestion:partidas')
-            # else:
-            #     error = "Error"
-            #     return render(request, 'gestion/create_edit/partida.html', {'partida_form': partida_form, 'error': error})
+                
             return redirect('gestion:partidas')
 
     except ObjectDoesNotExist as e:
@@ -193,11 +188,44 @@ class ActualizarJuego(UpdateView):
     form_class = JuegoForm
     success_url = reverse_lazy('gestion:partidas')
 
-class EliminarJuego(DeleteView):
-    model = Juega
-    success_url = 'gestion:partidas'
+# class EliminarJuego(DeleteView):
+#     model = Juega
+#     success_url = 'gestion:partidas'
 
-class EliminarTemporada(DeleteView):
+# class EliminarTemporada(DeleteView):
+#     model = Temporada
+#     success_url = 'gestion:temporadas'
+
+class TemporadaCreateView(CreateView):
     model = Temporada
-    success_url = 'gestion:temporadas'
+    form_class = TemporadaForm
+    template_name = 'gestion/create_edit/temporada.html'
+    success_url = reverse_lazy('gestion:temporadas')
+
+    @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No ha ingresado a ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tittle'] = 'Creación una temporada'
+        context['entity'] = 'Categorias'
+        context['list_url'] = reverse_lazy('erp:category_list')
+        context['form'] = TemporadaForm
+        return context
+
 

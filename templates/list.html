@@ -45,40 +45,57 @@
         </head>
     {% endblock head %}
 
+    <body>
+        {% block menu %}
+            <ul>
+                <div class="navbar-header">
+                <a class="navbar-brand" class="blue" style="color: yellow;">UHC BF</a>
+                </div>
+                <li><a href="{% url 'gestion:temporadas' %}">Temporadas</a></li>
+                <li><a href="{% url 'gestion:jugadores' %}">Jugadores</a></li>
+                <li><a href="{% url 'gestion:partidas' %}">Partidas</a></li>
+                <li><a href="">Contactar</a></li>
+                <li class="float-right"><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout </a></li>
+            </ul>
+        {% endblock menu %}
+        
+        <div class="container">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-5">
+                           {% block titulo_tabla %}
+                           
+                           {% endblock titulo_tabla %} 
+                        </div>
 
-    {% block body %}
-        <body>
+                        <div class="col-sm-7">
+                        {% block buttons %}
+                            
+                        {% endblock buttons %}
+                        </div>
+                    </div>
 
-        </body>
-    {% endblock %}
+                    {% block buscar %}
+                        <form method="GET">
+                            <div id="custom-search-input" class="fin">
+                                <div class="input-group col-md-12">
+                                    <input type="text" class="form-control" placeholder="Buscar" name="buscar">
+                                    <span class="input-group-list">
+                                        <i class="icon icon-search"></i>
+                                        <button type="submit" class="button btn-success">Buscar</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    {% endblock buscar %}
+                </div>
 
-    </html>                                		                            
 
-
-    {% block javscript %}
-        <script type="application/javascript">
-            $(function () {
-                $('#data').DataTable({
-                    responsive: true,
-                    autoWidth: false
-                });
-
-                $('.btnTest').on('click', function () {
-                    $.ajax({
-                        url: '',
-                        type: 'POST',
-                        data: {id: 1},
-                        dataType: 'json'
-                    }).done(function (data) {
-                        console.log(data);
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        alert(textStatus + ': ' + errorThrown);
-                    }).always(function (data) {
-
-                    });
-                });
-            });
-        </script>
-    
-    {% endblock %}
+                {% block tabla %}
+                    
+                {% endblock tabla %}
+            </div>
+        </div>
+    </html>
 {% endblock html %}

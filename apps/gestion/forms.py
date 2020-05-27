@@ -56,7 +56,7 @@ class PartidaForm(forms.ModelForm):
         model = Partida
         fields = ['dia', 'hora_inic', 'hora_fin', 'temporada' ]
         labels = {
-            # 'dia': 'Día de la partida',
+            'dia': 'Día de la partida',
             'hora_init': 'Hora inicio de la partida',
             'hora_fin': 'Hora de finalización de la partida',
             'temporada': 'Temporada en la que se lleva a cabo la partida'
@@ -88,3 +88,25 @@ class PartidaForm(forms.ModelForm):
                 }
             )
         }
+
+class TemporadaForm(forms.ModelForm):
+    class Meta:
+        model = Temporada
+        fields = ['nombre', 'ano']
+        labels = {
+            'nombre': 'Nombre de la temporada',
+            'Ano': 'Año de la temporada',
+        }
+        widgets = {
+            'nombre': forms.TextInput(
+                attrs = {
+                    'class': 'form-control',
+                    'placeholder': 'Ingrese el nombre de la temporada'
+                }
+            ),
+            'Ano': forms.TextInput(
+                attrs = {
+                    'class': 'form-control',
+                    'placeholder': 'Ingrese el año de la temporada'
+                }
+            )}
