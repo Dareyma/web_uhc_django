@@ -119,6 +119,31 @@ def eliminarPartida(request, id):
     
     return redirect('gestion:partidas')
 
+def eliminarTemporada(request, id):
+    temporada = Temporada.objects.get(id = id)
+    temporada.delete()
+    
+    return redirect('gestion:temporadas')
+
+def eliminarEquipo(request, id):
+    equipo = Juega.objects.get(id = id)
+    print("Va bien")
+    id_partida = equipo.partida.id
+
+    print(id_partida)
+
+    equipo.delete()
+    
+    partidas = get_object_or_404(Partida, id = id_partidas)
+    equipos = Juega.objects.filter(partida = partidas)
+    context={
+        'equipos': equipos,
+        'partidas': partidas,
+        }
+    return render(request, 'gestion/read/datos_partida.html', context)
+    
+    # return redirect('gestion:partida')
+
 
 # Vistas basadas en clases
 

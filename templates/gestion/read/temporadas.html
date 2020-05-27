@@ -20,6 +20,14 @@
     <link href="{% static 'css/menu2.css' %}" rel="stylesheet">
     <link href="{% static 'css/logout.css' %}" rel="stylesheet">
 
+    <script src="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}" 
+    src="../../../static/lib/jquery-confirm-v3.3.4/jquery-confirm.min.js"></script>
+    <link href="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}" 
+    href="../../../static/lib/jquery-confirm-v3.3.4/jquery-confirm.min.css" rel="stylesheet">
+
+    <script src="{% static 'js/myscript.js' %}"
+    src="../../../static/js/myscript.js"></script>
+
 </head>
 <body>
     <ul>
@@ -76,7 +84,7 @@
                         <td>{{ temporada.ano }}</td>
 						<td>
 							<a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-							<a href="{% url 'gestion:eliminar_temporada' temporada.id %}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+							<a onclick="alert_jqueryconfirm('temporada/delete/', {{temporada.id}} )" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
                         </td>
                     </tr>
                     {% endfor %}

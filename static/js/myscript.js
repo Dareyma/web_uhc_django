@@ -3,9 +3,9 @@
 
 function alert_jqueryconfirm(url, id){
     // var url = params;
-    console.log("Entra en la funcion");
-    var post_url = "{% url '" + url + "' " + id + " %}";
-    console.log(post_url);
+    // console.log("Entra en la funcion");
+    var post_url = url + id;
+    // console.log(post_url);
 
     $.confirm({
         theme: 'material',
@@ -22,8 +22,9 @@ function alert_jqueryconfirm(url, id){
                 text: "Si",
                 btnClass: 'btn-primary',
                 action: function () {
-                    
-                    Location.href = post_url;
+                    $.ajax({
+                        url: post_url
+                    });
                 }
             },
             danger: {

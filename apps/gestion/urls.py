@@ -4,7 +4,7 @@ from .views import *
 
 urlpatterns = [
     path('temporadas', temporadas, name='temporadas'),
-    path('temporada/eliminar/<int:pk>', EliminarTemporada.as_view(), name='eliminar_temporada'),
+    path('temporada/delete/<int:id>', eliminarTemporada, name='eliminar_temporada'),
     path('temporada/<int:id>', temporada, name='temporada'),
 
     path('jugadores', Jugadores.as_view(), name='jugadores'),
@@ -16,4 +16,6 @@ urlpatterns = [
 
     path('partida/<int:id>', juego, name='partida'),
     path('partida/editar/<int:pk>', ActualizarJuego.as_view(), name='editar_juego'),
+
+    path('equipo/delete/<int:id>', eliminarEquipo, name='eliminar_equipo'),
 ]
