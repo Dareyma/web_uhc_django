@@ -23,7 +23,8 @@ function alert_jqueryconfirm(url, id){
                 btnClass: 'btn-primary',
                 action: function () {
                     $.ajax({
-                        url: post_url
+                        url: post_url,
+                        function: location.reload()
                     });
                 }
             },

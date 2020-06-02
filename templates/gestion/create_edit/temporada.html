@@ -7,45 +7,42 @@
 
 {% block body %}
     <body>  
-    <form method="post">
-        {% csrf_token %}
-        {% if error %}
-            <h2 style="color: red;"> {{ error }}</h2>
-        {% else %}
-            <div class="modal-header">						
-                <h4 class="modal-title">Añadir partida</h4>
+     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crear nueva temporada</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <input name="action" type="hidden" value="add">
+                        <div class="form-group">
+                            {{ form.nombre.label }}
+                            {{ form.nombre }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.ano.label }}
+                            {{ form.ano }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="modal-body">					
-                <div class="form-group">
-                    {{ form.equipo.label }}
-                    {{ form.equipo }}
-                </div>
-                <div class="form-group">
-                    {{ form.jugador.label }}
-                    {{ form.jugador }}
-                </div>
-                <div class="form-group">
-                    {{ form.kills.label }}
-                    {{ form.kills }}
-                </div>
-                <div class="form-group">
-                    {{ form.ganador.label }}
-                    {{ form.ganador }}
-                </div>
-                <div class="form-group">
-                    {{ form.partida.label }}
-                    {{ form.partida }}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <input type="submit" class="btn btn-success" value="Add">
-            </div>
-        {% endif %}
+        </div>
+    </div>
     </form>
 </body>
 {% endblock body %}
 
-{% block javscript %}
+{% comment %} {% block javscript %}
         <div class="modal fade" id="myModalClient" tabindex="-1" role="dialog" 
         aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -74,4 +71,4 @@
                 </div>
             </div>
         </div>
-    {% endblock %}
+    {% endblock %} {% endcomment %}

@@ -67,7 +67,7 @@ class PartidaForm(forms.ModelForm):
                 format='%d/%m/%Y',
                 attrs = {
                     'class': 'form-control datepicker',
-                    'autocomplete': 'off'
+                    # 'autocomplete': 'off'
                 }
             ),
             'hora_init': forms.TimeInput(
