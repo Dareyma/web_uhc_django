@@ -9,7 +9,8 @@ from django.template import Context
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
-from app.gestion.models import *
+# from gestion.models import Juega
+# Está comentado dado que me da fallo y estoy tocando cosas de permisos
 
 class PartidaInvoicePdfView(View):
     def get(self, request, *args, **kwargs):

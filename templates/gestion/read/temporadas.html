@@ -10,10 +10,13 @@
 {% endblock titulo_tabla %}         
 
 {% block buttons %}
-    <a href="{% url 'gestion:add_temporada' %}" class="btn btn-primary">
-        <i class="material-icons">&#xE147;</i> 
-        <span>Add New User</span>
-    </a>
+    {% if request.user.is_staff %}
+       <a href="{% url 'gestion:add_temporada' %}" class="btn btn-primary">
+            <i class="material-icons">&#xE147;</i> 
+            <span>Add New User</span>
+        </a>             
+    {% endif %}
+    
     <a href="#" class="btn btn-primary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>
 {% endblock buttons %}
 
@@ -34,10 +37,13 @@
                     <td>{{ temporada.id }}</td>
                     <td><a href="{% url 'gestion:temporada' temporada.id %}">{{ temporada.nombre }}</a></td>
                     <td>{{ temporada.ano }}</td>
-                    <td>
-                        <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                        <a onclick="alert_jqueryconfirm('temporada/delete/', {{temporada.id}} )" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                    </td>
+                    {% if request.user.is_staff %}
+                        <td>
+                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                            <a onclick="alert_jqueryconfirm('temporada/delete/', {{temporada.id}} )" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                        </td>
+                    {% endif %}
+                    
                 </tr>
                 {% endfor %}
             </tbody>

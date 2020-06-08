@@ -17,6 +17,8 @@ from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login, logout
 
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+
 
 # Login, loguot, register
 
@@ -145,7 +147,8 @@ def eliminarEquipo(request, id):
 class Inicio(TemplateView):
     template_name = 'index.html'
 
-class Jugadores(TemplateView):
+class Jugadores(TemplateView, ListView):
+    # permission_required = ('Jugador.view_category, jugador.change_category')
     template_name = 'gestion/read/jugadores.html'
 
     def get(self, request, *args, **kwargs):

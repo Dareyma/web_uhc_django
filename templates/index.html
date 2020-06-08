@@ -35,9 +35,16 @@
   <div class="masthead">
 
     <ul>
+    {% if request.user.is_authenticated %}
       <div class="navbar-header">
-        <a class="navbar-brand" class="blue" style="color: yellow;">UHC BF</a>
+        <a class="navbar-brand" class="blue" style="color: yellow;">Bienvenido {{ request.user.username }}</a>
       </div>
+    {% else %}
+      <div class="navbar-header">
+        <a href="{% url 'login' %}" class="navbar-brand" class="blue" style="color: yellow;">Login</a>
+      </div>
+    {% endif %}
+      
       <li><a href="{% url 'gestion:temporadas' %}">Temporadas</a></li>
       <li><a href="{% url 'gestion:jugadores' %}">Jugadores</a></li>
       <li><a href="{% url 'gestion:partidas' %}">Partidas</a></li>

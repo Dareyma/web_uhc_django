@@ -32,10 +32,13 @@
                         width: 40px;"> {{ jugador.nombre }} </a></td>
                     <td>{{ jugador.pj }}</td>
                     <td><span class="status text-success">&bull;</span> {{ jugador.victorias }}</td>
-                    <td>
-                        <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                    </td>
+                    {% if request.user.is_staff %}
+                        <td>
+                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                        </td>
+                    {% endif %}
+                    
                 </tr>
                 {% endfor %}
             </tbody>
