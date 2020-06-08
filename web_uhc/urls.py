@@ -30,5 +30,6 @@ urlpatterns = [
     path('', Inicio.as_view(), name='index'),
     path('login/', Login.as_view(), name='login'),
     path('logout/', login_required(logoutUsuario), name='logout'),
-    path('gestion/', include(('apps.gestion.urls', 'gestion')))
+    path('gestion/', include(('apps.gestion.urls', 'gestion'))),
+    path('pdf/', include(('apps.pdf.urls', 'pdf')))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
