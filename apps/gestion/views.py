@@ -1,10 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
 from .models import *
 from .forms import *
 
 from django.core.paginator import Paginator
 from django.views.generic import View, TemplateView, ListView, CreateView, UpdateView, DeleteView
-from django.shortcuts import get_list_or_404, get_object_or_404, render
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse_lazy
@@ -71,6 +70,7 @@ def juego(request, id):
     context={
         'equipos': equipos,
         'partidas': partidas,
+        'id': id
         }
     return render(request, 'gestion/read/datos_partida.html', context)
 
@@ -148,7 +148,7 @@ class Inicio(TemplateView):
     template_name = 'index.html'
 
 class Jugadores(TemplateView, ListView):
-    # permission_required = ('Jugador.view_category, jugador.change_category')
+    permission_required = ('Jugador.view_category', 'jugador.change_category')
     template_name = 'gestion/read/jugadores.html'
 
     def get(self, request, *args, **kwargs):
@@ -183,21 +183,17 @@ class Partidas(TemplateView):
 
 class CrearJuego(CreateView):
     model = Juega
-    form_class = JuegoForm
+    form_class = EquipoForm
 
 class ActualizarJuego(UpdateView):
     model = Juega
     template_name = 'gestion/create_edit/juego.html'
-    form_class = JuegoForm
+    form_class = EquipoForm
     success_url = reverse_lazy('gestion:partidas')
 
 # class EliminarJuego(DeleteView):
 #     model = Juega
 #     success_url = 'gestion:partidas'
-
-# class EliminarTemporada(DeleteView):
-#     model = Temporada
-#     success_url = 'gestion:temporadas'
 
 class TemporadaCreateView(CreateView):
     model = Temporada

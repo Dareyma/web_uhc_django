@@ -12,7 +12,7 @@ class FormularioLogin(AuthenticationForm):
         self.fields['password'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['placeholder'] = 'Contraseña'
 
-class JuegoForm(forms.ModelForm):
+class EquipoForm(forms.ModelForm):
     class Meta:
         model = Juega
         fields = ['equipo', 'jugador', 'partida' ]
@@ -49,7 +49,6 @@ class JuegoForm(forms.ModelForm):
                 }
             )
         }
-
 
 class PartidaForm(forms.ModelForm):
     class Meta:

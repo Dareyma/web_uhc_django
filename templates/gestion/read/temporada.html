@@ -4,12 +4,3 @@
 {{% block tittle %}
     Partidas
 {% endblock tittle %}}
-        
-        
-{% block buttons %}
-    {% if request.user.is_staff %}
-        <a href="#" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>          
-    {% endif %}
-    
-    <a href="#" class="btn btn-primary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>
-{% endblock buttons %}

@@ -41,7 +41,7 @@
     {{ comp.address|upper }}
 </p> {% endcomment %}
 <p>
-    <b>ID:</b> {{ juega.partida.id }}<br>
+    <b>ID:</b> {{ object_list.partida.id }}<br>
     <b>FECHA:</b> {{ juega.partida.dia }}<br>
     <b>HORA INICIO:</b> {{ juega.partida.hora_inic|upper }}<br>
     <b>HORA FIN:</b> {{ juega.partida.hora_fin|upper }}<br>
@@ -56,13 +56,13 @@
     </tr>
     </thead>
     <tbody>
-    {% for d in juega %}
+    {% comment %} {% for d in juega %}
         <tr {% if forloop.first %} style="padding-top: 3px;" {% endif %}>
             <td class="text-center">{{ p.equipo }}</td>
             <td class="text-center">{% for jugador in p.jugador.all %} {{ jugador.nombre }} / {% endfor %}</td>
             <td>{{ p.kills }}</td>
         </tr>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
     </tbody>
 </table>
 <table style="margin-top: 250px;">

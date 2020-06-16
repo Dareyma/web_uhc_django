@@ -9,7 +9,7 @@ from django.template import Context
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
-# from gestion.models import Juega
+from apps.gestion.models import Juega
 # Está comentado dado que me da fallo y estoy tocando cosas de permisos
 
 class PartidaInvoicePdfView(View):
@@ -18,10 +18,11 @@ class PartidaInvoicePdfView(View):
             template = get_template('pdf/partida_pdf.html')
             context = {
                 'juega': Juega.objects.get(pk=self.kwargs['pk'])
-                }
+            }
             html = template.render(context)
             response = HttpResponse(content_type='application/pdf')
             #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            '''La línea superior es para descargarlo directamente'''
             pisaStatus = pisa.CreatePDF(
                 html, dest=response)
             return response
