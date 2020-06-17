@@ -55,7 +55,11 @@
                 <li><a href="{% url 'gestion:jugadores' %}">Jugadores</a></li>
                 <li><a href="{% url 'gestion:partidas' %}">Partidas</a></li>
                 <li><a href="">Contactar</a></li>
-                <li class="float-right"><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout </a></li>
+                {% if request.user.is_authenticated %}
+                    <li class="float-right"><a href="{% url 'logout' %}">
+                        <span class="glyphicon glyphicon-log-in"></span> Logout </a>   
+                    </li>
+                {% endif %}
             </ul>
         {% endblock menu %}
         

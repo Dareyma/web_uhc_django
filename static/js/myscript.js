@@ -50,3 +50,8 @@ $(function() {
         modal.find('.modal-body input').val(recipient);
       });
 });
+
+
+function popup() {
+    alert("Bienvenido");
+}
